@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         bFitBark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), );
+                Intent i = new Intent(view.getContext(), PetInfoActivity.class);
                 startActivity(i);
             }
         });
@@ -35,16 +35,16 @@ public class HomeActivity extends AppCompatActivity {
         bPaypal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), );
-                startActivity(i);
+//                Intent i = new Intent(view.getContext(), );
+//                startActivity(i);
             }
         });
 
         bMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), );
-                startActivity(i);
+//                Intent i = new Intent(view.getContext(), );
+//                startActivity(i);
             }
         });
     }
