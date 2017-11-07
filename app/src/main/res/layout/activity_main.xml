@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context="com.iu.ckresnye.barksandrec.MainActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
+
+    <RelativeLayout
+        android:layout_width="365dp"
+        android:layout_height="509dp"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="-74dp">
+
+        <TextView
+            android:id="@+id/textViewLogin"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:fontFamily="casual"
+            android:text="Login"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextOne"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="150dp"
+            android:layout_alignBottom="@+id/inputUsername"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="54dp"/>
+
+        <EditText
+            android:id="@+id/inputUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Enter Username..."
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="181dp"
+            android:layout_above="@+id/InputPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="19dp"/>
+
+        <EditText
+            android:id="@+id/InputPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/inputUsername"
+            android:layout_centerVertical="true"
+            android:autoText="false"
+            android:background="@android:color/background_light"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:text="Enter Password..."
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="212dp"/>
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="219dp"
+            android:layout_height="53dp"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="casual"
+            android:text="Continue"
+            android:textColor="@color/colorBackground"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="245dp"
+            android:layout_marginTop="26dp"
+            android:layout_below="@+id/InputPassword"
+            android:layout_alignStart="@+id/textView4"/>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="218dp"
+            android:layout_height="42dp"
+            android:fontFamily="casual"
+            android:text="Don't have an account? Register for one below."
+            android:textAlignment="center"
+            android:textColor="@color/colorTextOne"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="305dp"
+            android:layout_below="@+id/buttonLogin"
+            android:layout_alignStart="@+id/InputPassword"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="88dp"
+            android:layout_height="48dp"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="casual"
+            android:text="Register"
+            android:textColor="@color/colorBackground"
+            android:textSize="12sp"
+            tools:layout_editor_absoluteX="144dp"
+            tools:layout_editor_absoluteY="348dp"
+            android:layout_below="@+id/textView4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"/>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
