@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "146584349161",
+    "firebase_url": "https://barks-and-rec-183fa.firebaseio.com",
+    "project_id": "barks-and-rec-183fa",
+    "storage_bucket": "barks-and-rec-183fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146584349161:android:e339e36d9904f497",
+        "android_client_info": {
+          "package_name": "com.iu.ckresnye.barksandrec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146584349161-nat52e5ogb2ej675is596h018d8dni4j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iu.ckresnye.barksandrec",
+            "certificate_hash": "3c67a49bd38643f18f66debac9600f96472ced28"
+          }
+        },
+        {
+          "client_id": "146584349161-vbreodfafjql2g60rjd14feq6jknceii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBECG8wSoPifZ2usUV0fmIQdlie39_lAeM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146584349161-vbreodfafjql2g60rjd14feq6jknceii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

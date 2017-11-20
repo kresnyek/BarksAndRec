@@ -37,15 +37,14 @@
             android:id="@+id/inputUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/background_light"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Enter Username..."
-            tools:layout_editor_absoluteX="73dp"
-            tools:layout_editor_absoluteY="181dp"
             android:layout_above="@+id/InputPassword"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="19dp"/>
+            android:layout_marginBottom="19dp"
+            android:background="@android:color/background_light"
+            android:ems="10"
+            android:inputType="textWebEmailAddress"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="181dp"/>
 
         <EditText
             android:id="@+id/InputPassword"
@@ -57,7 +56,6 @@
             android:background="@android:color/background_light"
             android:ems="10"
             android:inputType="textPassword"
-            android:text="Enter Password..."
             tools:layout_editor_absoluteX="73dp"
             tools:layout_editor_absoluteY="212dp"/>
 
