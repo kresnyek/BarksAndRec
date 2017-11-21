@@ -28,6 +28,11 @@
             android:label="@string/title_activity_pet_info"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".AddPetActivity"
+            android:label="@string/title_activity_add_pet"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
