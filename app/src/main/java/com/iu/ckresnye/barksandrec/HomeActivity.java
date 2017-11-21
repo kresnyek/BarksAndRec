@@ -49,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         bFitBark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), AddPetActivity.class);
+                Intent i = new Intent(view.getContext(), PetProfileActivity.class);
                 startActivity(i);
             }
         });

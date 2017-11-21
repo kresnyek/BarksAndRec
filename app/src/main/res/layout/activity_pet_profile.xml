@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iu.ckresnye.barksandrec.PetProfileActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:minHeight="248dp">
+
+        <TextView
+            android:id="@+id/textViewPetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Unloaded Name"
+            android:textColor="@color/colorBackground"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/imageViewPet"
+            android:layout_width="match_parent"
+            android:layout_height="200sp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewPetName"
+            app:srcCompat="@mipmap/ic_launcher"/>
+
+        <TabHost
+            android:id="@+id/tab_host"
+            android:layout_width="200dip"
+            android:layout_height="300dip"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageViewPet">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"/>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/About"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:gravity="fill_horizontal"
+                        android:orientation="vertical"
+                        android:paddingLeft="10sp"
+                        android:paddingRight="10sp"
+                        android:paddingTop="20sp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/textViewBreed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="casual"
+                            android:gravity="center_horizontal"
+                            android:text="UnloadedBreed"
+                            android:textColor="@color/colorTextOne"
+                            android:textSize="24sp"/>
+
+                        <TextView
+                            android:id="@+id/textViewBirthday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.12"
+                            android:fontFamily="casual"
+                            android:gravity="center_horizontal"
+                            android:text="Unloaded Birthday"
+                            android:textColor="@color/colorTextOne"
+                            android:textSize="24sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/Goals"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:orientation="vertical"
+                        android:padding="10sp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/textViewSteps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="Unloaded Steps"
+                            android:visibility="gone"/>
+
+                        <Button
+                            android:id="@+id/buttonAddFitBark"
+                            android:layout_width="match_parent"
+                            android:layout_height="71dp"
+                            android:background="@color/colorPrimaryDark"
+                            android:fontFamily="casual"
+                            android:gravity="center"
+                            android:text="Add Fitbark Data"
+                            android:textColor="@color/colorBackground"
+                            android:textSize="30sp"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/Edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/editTextName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:text="UnloadedName"/>
+
+                        <EditText
+                            android:id="@+id/editTextBreed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:text="Unloaded Breed"/>
+
+                        <EditText
+                            android:id="@+id/editTextBirthday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="date"
+                            android:text="Unloaded Date"/>
+
+                        <Button
+                            android:id="@+id/buttonEditSubmit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimaryDark"
+                            android:fontFamily="casual"
+                            android:text="Submit"
+                            android:textColor="@color/colorBackground"
+                            android:textSize="24sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+        </TabHost>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
