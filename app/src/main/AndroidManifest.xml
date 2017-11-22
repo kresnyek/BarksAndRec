@@ -3,6 +3,8 @@
           package="com.iu.ckresnye.barksandrec">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -26,6 +28,16 @@
         <activity
             android:name=".PetInfoActivity"
             android:label="@string/title_activity_pet_info"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".AddPetActivity"
+            android:label="@string/title_activity_add_pet"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".PetProfileActivity"
+            android:label="@string/title_activity_pet_profile"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

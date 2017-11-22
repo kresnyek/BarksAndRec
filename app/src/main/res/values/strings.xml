@@ -4,4 +4,6 @@
     <string name="title_activity_pet_info">PetInfoActivity</string>
     <string name="client_id">87c8a9ebc91dcf371a58eee04f7ea6d897559ca5620e17a42d695e40d0c6e180 </string>
     <string name="client_secret">87c8a9ebc91dcf371a58eee04f7ea6d897559ca5620e17a42d695e40d0c6e180</string>
+    <string name="title_activity_add_pet">AddPetActivity</string>
+    <string name="title_activity_pet_profile">PetProfileActivity</string>
 </resources>
