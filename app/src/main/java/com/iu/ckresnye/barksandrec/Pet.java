@@ -1,7 +1,5 @@
 package com.iu.ckresnye.barksandrec;
 
-import android.net.Uri;
-
 import java.util.Date;
 
 /**
@@ -21,6 +19,12 @@ public class Pet
         this.breed = breed;
         this.bday  = bday;
 
+    }
+    public Pet()
+    {
+        name = "Unloaded";
+        breed  = "Unloaded";
+        bday = new Date();
     }
 
     public String getName() {
