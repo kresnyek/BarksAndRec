@@ -8,6 +8,14 @@
     tools:context="com.iu.ckresnye.barksandrec.PetProfileActivity">
 
 
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:defaultFocusHighlightEnabled="true"
+        android:elevation="10dp"
+        android:visibility="gone"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

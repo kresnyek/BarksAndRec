@@ -85,8 +85,8 @@ public class AddPetActivity extends AppCompatActivity {
         String name = petName.getText().toString().trim();
         String breed = petBreed.getText().toString().trim();
         com.iu.ckresnye.barksandrec.Pet newPet = new com.iu.ckresnye.barksandrec.Pet(name, breed, new Date());
-        dbRef.child(user.getUid()).setValue(newPet);
-        StorageReference petStorage = mStorageReference.child(user.getUid());
+        dbRef.child("Pet").child(user.getUid()).setValue(newPet);
+        StorageReference petStorage = mStorageReference.child("Pet").child(user.getUid());
 
         petStorage.putFile(pic).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
