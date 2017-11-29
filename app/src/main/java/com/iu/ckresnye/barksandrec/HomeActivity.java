@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity {
     //TODO change layout from just these 3 buttons
@@ -23,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseUser user;
+    private FirebaseDatabase dbRef;
 
 
     @Override
@@ -45,12 +50,12 @@ public class HomeActivity extends AppCompatActivity {
                 getUser();
             }
         };
+        dbRef = FirebaseDatabase.getInstance();
 
         bFitBark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), PetProfileActivity.class);
-                startActivity(i);
+                checkUser();
             }
         });
 
@@ -76,6 +81,40 @@ public class HomeActivity extends AppCompatActivity {
                 signOut();
             }
         });
+    }
+
+    private void checkUser()
+    {
+        dbRef.getReference().child("USERS").child(auth.getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        /*ArrayList data = new ArrayList<String>();
+                        User u = new User();
+
+                        for(DataSnapshot userDataSnapshot: dataSnapshot.getChildren())
+                        {
+                            data.add(userDataSnapshot.getValue().toString());
+                            //Toast.makeText(this, "text: " + p, Toast.LENGTH_LONG).show();
+
+                            //pets.add(new com.iu.ckresnye.barksandrec.Pet(pet.getName(), pet.getBreed(), pet.getBday()));
+                        }
+
+                        u.setfName((String)data.get(2));
+                        u.setBreed((String) data.get(1));
+                        //pet.setBday((Date) data.get(0));*/
+                        User u = dataSnapshot.getValue(User.class);
+                        Intent i = new Intent(HomeActivity.this, (u.getHasPet() ? PetProfileActivity.class: AddPetActivity.class ));
+                        startActivity(i);
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
     }
 
     @Override

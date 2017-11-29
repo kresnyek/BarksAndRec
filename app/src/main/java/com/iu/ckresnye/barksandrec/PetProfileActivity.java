@@ -1,5 +1,6 @@
 package com.iu.ckresnye.barksandrec;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONObject;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,7 +36,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -47,14 +49,18 @@ public class PetProfileActivity extends AppCompatActivity {
     ImageView iPet;
     TabHost tabs;
     WebView web;
+    View fitBarkHider;
 
     private DatabaseReference dbRef;
     private FirebaseAuth auth;
     private FirebaseUser user;
     private StorageReference mStorageReference;
     private String accessCode;
+    private String token;
 
     private static String fitBarkURL = "https://app.fitbark.com/oauth/authorize";
+    private Pet pet;
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +71,14 @@ public class PetProfileActivity extends AppCompatActivity {
         tName = (TextView) findViewById(R.id.textViewPetName);
         tBreed = (TextView) findViewById(R.id.textViewBreed);
         tBday = (TextView) findViewById(R.id.textViewBirthday);
-        tSteps = (TextView) findViewById(R.id.textViewSteps);
+        tSteps = (TextView) findViewById(R.id.stepsTextView);
         eName = (EditText) findViewById(R.id.editTextName);
         eBreed = (EditText) findViewById(R.id.editTextBreed);
         eBDay = (EditText) findViewById(R.id.editTextBirthday);
         iPet = (ImageView) findViewById(R.id.imageViewPet);
         tabs = (TabHost) findViewById(R.id.tab_host);
         web = (WebView) findViewById(R.id.web_view);
+        fitBarkHider = (View) findViewById(R.id.fitbarkHider);
 
 
         auth = FirebaseAuth.getInstance();
@@ -81,8 +88,20 @@ public class PetProfileActivity extends AppCompatActivity {
 
         Glide.with(this).using(new FirebaseImageLoader()).load(mStorageReference).into(iPet);
 
+        dbRef.child("USERS").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                getUserInfo(dataSnapshot);
+            }
 
-        dbRef.child("Pet").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        dbRef.child("PETS").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 getPetInfo(dataSnapshot);
@@ -127,13 +146,12 @@ public class PetProfileActivity extends AppCompatActivity {
         // the intent filter defined in AndroidManifest will handle the return from ACTION_VIEW intent
         Uri uri = getIntent().getData();
         if (uri == null){
-            Log.d("CASSIE", "Gets Here: " + BuildConfig.REDIRECT);
+            //
 
         }
         if (uri != null && uri.toString().contains(BuildConfig.REDIRECT)) {
             // use the parameter your API exposes for the code (mostly it's "code")
             String code = uri.getQueryParameter("code");
-            Log.d("CASSIE", code);
             if (code != null) {
                 // get access token
                 // we'll do that in a minute
@@ -145,27 +163,41 @@ public class PetProfileActivity extends AppCompatActivity {
 
     void getPetInfo(DataSnapshot dataSnapshot)
     {
-        ArrayList data = new ArrayList<String>();
-        Pet pet = new Pet();
 
-        for(DataSnapshot petDataSnapshot: dataSnapshot.getChildren())
+            pet = dataSnapshot.getValue(Pet.class);
+
+            if(pet != null) {
+
+                tName.setText(pet.getName());
+                tBreed.setText(pet.getBreed());
+                tBday.setText(pet.getBday().toString());
+
+                fitBarkHider.setVisibility(pet.getActivatedFitbark() ? View.GONE : View.VISIBLE);
+
+                if(pet.getActivatedFitbark())
+                {
+                    updateUserInfo();
+                }
+            }
+            else
+            {
+                //somehow got here even without a pet, redirect
+                Intent i = new Intent(this, AddPetActivity.class);
+                startActivity(i);
+                finish();
+            }
+
+    }
+
+    void getUserInfo(DataSnapshot dataSnapshot)
+    {
+        mUser = dataSnapshot.getValue(User.class);
+        if(mUser == null)
         {
-            data.add(petDataSnapshot.getValue().toString());
-            //Toast.makeText(this, "text: " + p, Toast.LENGTH_LONG).show();
+            //do stuff
 
-            //pets.add(new com.iu.ckresnye.barksandrec.Pet(pet.getName(), pet.getBreed(), pet.getBday()));
         }
 
-        pet.setName((String)data.get(2));
-        pet.setBreed((String) data.get(1));
-        //pet.setBday((Date) data.get(0));
-
-        Log.i("CASSIE", fitBarkURL + "?response_type=code&client_credentials&" + "client_id=" + CLIENT_ID + "&redirect_uri=" + BuildConfig.REDIRECT);
-
-        //For One pet for now
-        tName.setText(pet.getName());
-        tBreed.setText(pet.getBreed());
-        tBday.setText(pet.getBday().toString());
 
     }
 
@@ -178,27 +210,22 @@ public class PetProfileActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                checkifDone(view, url);
+                checkIfDone(view, url);
 
             }
         });
-        web.loadUrl(fitBarkURL + "?response_type=code&client_credentials&" + "client_id=" + CLIENT_ID + "&redirect_uri=" + BuildConfig.REDIRECT);
+        web.loadUrl(fitBarkURL + "?response_type=code&" + "client_id=" + CLIENT_ID + "&redirect_uri=" + BuildConfig.REDIRECT);
 
-        /*Intent intent = new Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(fitBarkURL + "?response_type=code&client_credentials&" + "client_id=" +BuildConfig.CLIENT_ID + "&redirect_uri=" + BuildConfig.REDIRECT));
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);*/
     }
 
-    void checkifDone(WebView view, String url)
+    void checkIfDone(WebView view, String url)
     {
         if (!url.contains("client_id")) {
            accessCode = url.substring(url.lastIndexOf('/')+1).trim();
             view.destroy();
             view.setVisibility(View.GONE);
             secondOauthStep();
+
         }
     }
 
@@ -208,51 +235,91 @@ public class PetProfileActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-        OutputStream out = null;
-        try {
-            // Add your data
-            URL url = new URL("https://app.fitbark.com/oauth/token");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            out = new BufferedOutputStream(conn.getOutputStream());
-            BufferedWriter writer = new BufferedWriter (new OutputStreamWriter(out, "UTF-8"));
-            String data = "client_id="+BuildConfig.CLIENT_ID
-                    +"&client_secret="+ BuildConfig.CLIENT_SECRET
-                    +"&grant_type=authorization_code&redirect_uri=" + BuildConfig.REDIRECT
-                    +"&code=" +accessCode;
-            writer.write(data);
+                OutputStream out = null;
+                try {
+                    // Add your data
+                    URL url = new URL("https://app.fitbark.com/oauth/token");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    out = new BufferedOutputStream(conn.getOutputStream());
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                    String data = "client_id=" + BuildConfig.CLIENT_ID
+                            + "&client_secret=" + BuildConfig.CLIENT_SECRET
+                            + "&grant_type=authorization_code&redirect_uri=" + BuildConfig.REDIRECT
+                            + "&code=" + accessCode;
+                    writer.write(data);
 
-            writer.flush();
+                    writer.flush();
 
-            writer.close();
+                    writer.close();
 
-            out.close();
+                    out.close();
 
-            conn.connect();
-            int responseCode=conn.getResponseCode();
-            Log.i("CASSIE", "ReponseCode: " + Integer.toString(responseCode));
+                    conn.connect();
+                    int responseCode = conn.getResponseCode();
 
-            String response = "";
+                    String response = "";
 
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
-                String line;
-                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                while ((line=br.readLine()) != null) {
-                    response += line;
+                    if (responseCode == HttpsURLConnection.HTTP_OK) {
+                        String line;
+                        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        while ((line = br.readLine()) != null) {
+                            response += line;
+                        }
+
+                        mUser.setToken(response.substring(17, response.indexOf("\",\"token_type")));
+                        pet.setActivatedFitbark(true);
+                        dbRef.child("USERS").child(auth.getCurrentUser().getUid()).setValue(mUser);
+                        dbRef.child("PETS").child(auth.getCurrentUser().getUid()).setValue(pet);
+                    }
+                } catch (Exception e) {
+                    Log.e("CASSIE", "eh", e);
                 }
 
-                String token = response.substring(17, response.indexOf("\",\"token_type"));
-                Log.i("CASSIE", "Token: " + token + "\nline:" + response);
-            }
-
-        } catch (Exception e) {
-            Log.e("CASSIE", "eh", e);
-        }
 
             }
         }).start();
+
     }
 
+    void updateUserInfo()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                        URL url = new URL("https://app.fitbark.com/api/v2/dog_relations");
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("GET");
+                        conn.setRequestProperty("Authorization", "Bearer " + mUser.getToken());
 
+                        conn.connect();
+                        int responseCode = conn.getResponseCode();
+
+                        String response = "";
+
+                        if (responseCode == HttpsURLConnection.HTTP_OK)
+                        {
+                            String line;
+                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            while ((line = br.readLine()) != null)
+                            {
+                                response += line;
+                            }
+
+                                JSONObject json = new JSONObject(response);
+                            tSteps.setText(json.getJSONArray("dog_relations").getJSONObject(0).getJSONObject("dog").getString("slug"));
+                    }
+
+                    }
+                    catch(Exception e)
+                    {
+                        Log.e("CASSIE", e.getMessage());
+                    }
+
+            }
+        }).start();
+
+    }
 
 }
