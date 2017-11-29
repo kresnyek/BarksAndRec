@@ -16,6 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     Button bLogin;
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressBar bar;
     private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance();
         bar = new ProgressBar(this);
 
         bLogin = (Button) findViewById(R.id.buttonLogin);
@@ -85,8 +91,22 @@ public class MainActivity extends AppCompatActivity {
                         bar.setVisibility(View.GONE);
                         if(task.isSuccessful())
                         {
-                            Toast.makeText(MainActivity.this, "Logged in Successfully", Toast.LENGTH_LONG).show();
-                            //TODO create register sequence
+                            dbRef.getReference().child("USERS").child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(!dataSnapshot.exists())
+                                    {
+                                        dbRef.getReference().child("USERS")
+                                                .child(firebaseAuth.getCurrentUser().getUid())
+                                                .setValue(new User());
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             startActivity(intent);
                         }

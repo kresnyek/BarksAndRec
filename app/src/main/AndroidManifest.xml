@@ -34,11 +34,22 @@
             android:name=".AddPetActivity"
             android:label="@string/title_activity_add_pet"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".PetProfileActivity"
             android:label="@string/title_activity_pet_profile"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="urn:ietf:wg:oauth:2.0:oob"
+                    />
+                <data android:scheme="https"
+                      android:host="app.fitbark.com/oauth/authorization"
+                    />
+            </intent-filter>
         </activity>
     </application>
 

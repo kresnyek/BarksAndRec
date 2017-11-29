@@ -15,8 +15,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -85,8 +88,8 @@ public class AddPetActivity extends AppCompatActivity {
         String name = petName.getText().toString().trim();
         String breed = petBreed.getText().toString().trim();
         com.iu.ckresnye.barksandrec.Pet newPet = new com.iu.ckresnye.barksandrec.Pet(name, breed, new Date());
-        dbRef.child(user.getUid()).setValue(newPet);
-        StorageReference petStorage = mStorageReference.child(user.getUid());
+        dbRef.child("PETS").child(user.getUid()).setValue(newPet);
+        StorageReference petStorage = mStorageReference.child("Pet").child(user.getUid());
 
         petStorage.putFile(pic).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -97,6 +100,20 @@ public class AddPetActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(AddPetActivity.this, "Failed on Image", Toast.LENGTH_SHORT);
+            }
+        });
+
+        dbRef.child("USERS").child(auth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User u = dataSnapshot.getValue(User.class);
+                u.setHasPet(true);
+                dbRef.child("USERS").child(auth.getCurrentUser().getUid()).setValue(u);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 

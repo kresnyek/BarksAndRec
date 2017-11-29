@@ -11,6 +11,16 @@ public class Pet
     private String name;
     private String breed;
     private Date bday;
+
+    public Boolean getActivatedFitbark() {
+        return activatedFitbark;
+    }
+
+    public void setActivatedFitbark(Boolean activatedFitbark) {
+        this.activatedFitbark = activatedFitbark;
+    }
+
+    private Boolean activatedFitbark;
     //private Uri pic;
 
     public Pet(String name, String breed, Date bday)
@@ -18,6 +28,7 @@ public class Pet
         this.name = name;
         this.breed = breed;
         this.bday  = bday;
+        this.activatedFitbark = false;
 
     }
     public Pet()
