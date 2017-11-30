@@ -45,7 +45,18 @@ public class MainActivity extends AppCompatActivity {
         bRegister = (Button) findViewById(R.id.buttonRegister);
         eUsername = (EditText) findViewById(R.id.inputUsername);
         ePassword = (EditText) findViewById(R.id.InputPassword);
-
+//        ParkEvents e = new ParkEvents("\"Great Pyr Fun\"", "Nov 30",
+//                "Come and bring your Pyr for a snow filled fun day at Ferguson!",new ArrayList<String>(),"","", true, 0, "4");
+//        dbRef.getReference().child("EVENTS").child("1").child("4").setValue(e);
+//        e = new ParkEvents("Santa Paws", "Dec 24",
+//                "News from up north hint that a certain dog will be making his rounds this christmas eve! Come enjoy a free 'cookies and milk' and get your holiday picture with Santa Paws!",new ArrayList<String>(),"","", true, 0, "3");
+//        dbRef.getReference().child("EVENTS").child("1").child("3").setValue(e);
+//        e = new ParkEvents("IU Send Off", "Dec 16",
+//                "Come enjoy some treats and say goodbye to our student owners before they head home for the holiday",new ArrayList<String>(),"","", true, 0, "2");
+//        dbRef.getReference().child("EVENTS").child("1").child("2").setValue(e);
+//        e = new ParkEvents("Super cool event", "Dec 21",
+//                "Awesome stuff is going on, but its a surprise!",new ArrayList<String>(),"","", true, 0, "1");
+//        dbRef.getReference().child("EVENTS").child("1").child("1").setValue(e);
 
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +107,12 @@ public class MainActivity extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if(!dataSnapshot.exists())
                                     {
+                                        User u = new User();
+                                        u.setParkId("1");
+                                        u.setHasPet(true);
                                         dbRef.getReference().child("USERS")
                                                 .child(firebaseAuth.getCurrentUser().getUid())
-                                                .setValue(new User());
+                                                .setValue(u);
                                     }
                                 }
 

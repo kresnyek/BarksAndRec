@@ -44,7 +44,7 @@ import static com.iu.ckresnye.barksandrec.BuildConfig.CLIENT_ID;
 public class PetProfileActivity extends AppCompatActivity {
 
     Button bAddFitBark, bEdit;
-    TextView tName, tBreed, tBday, tSteps;
+    TextView tName, tBreed, tBday, tGoal, tCurrent;
     EditText eName, eBreed, eBDay;
     ImageView iPet;
     TabHost tabs;
@@ -71,7 +71,8 @@ public class PetProfileActivity extends AppCompatActivity {
         tName = (TextView) findViewById(R.id.textViewPetName);
         tBreed = (TextView) findViewById(R.id.textViewBreed);
         tBday = (TextView) findViewById(R.id.textViewBirthday);
-        tSteps = (TextView) findViewById(R.id.stepsTextView);
+        tGoal = (TextView) findViewById(R.id.currentGoalTextView);
+        tCurrent = (TextView) findViewById(R.id.averagesTextView);
         eName = (EditText) findViewById(R.id.editTextName);
         eBreed = (EditText) findViewById(R.id.editTextBreed);
         eBDay = (EditText) findViewById(R.id.editTextBirthday);
@@ -129,7 +130,16 @@ public class PetProfileActivity extends AppCompatActivity {
         spec3.setIndicator("Edit");
         tabs.addTab(spec3);
 
+        bEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pet.setName(eName.getText().toString());
+                pet.setBreed(eBreed.getText().toString());
+                //pet.setBday(new Date(eBDay.getText().toString()));
 
+                dbRef.child("PETS").child(auth.getCurrentUser().getUid()).setValue(pet);
+            }
+        });
         bAddFitBark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -288,30 +298,49 @@ public class PetProfileActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                        URL url = new URL("https://app.fitbark.com/api/v2/dog_relations");
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    URL url = new URL("https://app.fitbark.com/api/v2/dog_relations");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Authorization", "Bearer " + mUser.getToken());
+
+                    conn.connect();
+                    int responseCode = conn.getResponseCode();
+
+                    String response = "";
+
+                    if (responseCode == HttpsURLConnection.HTTP_OK) {
+                        String line;
+                        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        while ((line = br.readLine()) != null) {
+                            response += line;
+                        }
+
+                        JSONObject json = new JSONObject(response);
+                        String dogSlug = json.getJSONArray("dog_relations").getJSONObject(0).getJSONObject("dog").getString("slug");
+
+                        url = new URL("https://app.fitbark.com/api/v2/dog/" + dogSlug);
+                        conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("GET");
                         conn.setRequestProperty("Authorization", "Bearer " + mUser.getToken());
 
                         conn.connect();
-                        int responseCode = conn.getResponseCode();
+                        responseCode = conn.getResponseCode();
 
-                        String response = "";
+                        response = "";
 
-                        if (responseCode == HttpsURLConnection.HTTP_OK)
-                        {
-                            String line;
-                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                            while ((line = br.readLine()) != null)
-                            {
+                        if (responseCode == HttpsURLConnection.HTTP_OK) {
+                            br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            while ((line = br.readLine()) != null) {
                                 response += line;
                             }
 
-                                JSONObject json = new JSONObject(response);
-                            tSteps.setText(json.getJSONArray("dog_relations").getJSONObject(0).getJSONObject("dog").getString("slug"));
-                    }
+                            json = new JSONObject(response);
+                            tCurrent.setText("Average Activity: " + Integer.toString(json.getJSONObject("dog").getInt("activity_value")));
+                            tGoal.setText("Daily Goal: " + Integer.toString(json.getJSONObject("dog").getInt("daily_goal")));
+                        }
 
                     }
+                }
                     catch(Exception e)
                     {
                         Log.e("CASSIE", e.getMessage());

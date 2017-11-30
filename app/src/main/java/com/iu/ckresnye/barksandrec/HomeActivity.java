@@ -7,27 +7,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class HomeActivity extends AppCompatActivity {
     //TODO change layout from just these 3 buttons
-    Button bFitBark;
-    Button bPaypal;
-    Button bMaps;
+    Button bPet;
+    Button bPark;
+    Button bSettings;
     Button bLogout;
+    ImageView iPark;
     TextView userNameGreeting;
+
+
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseUser user;
     private FirebaseDatabase dbRef;
+    private StorageReference mStorage;
 
 
     @Override
@@ -38,10 +47,12 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        bFitBark = (Button) findViewById(R.id.buttonFitbark);
-        bPaypal = (Button) findViewById(R.id.buttonPaypal);
-        bMaps = (Button) findViewById(R.id.buttonMaps);
+        bPet = (Button) findViewById(R.id.buttonPet);
+        bPark = (Button) findViewById(R.id.buttonPark);
+        bSettings = (Button) findViewById(R.id.buttonSetting);
         bLogout = (Button) findViewById(R.id.logoutButton);
+        iPark = (ImageView) findViewById(R.id.ImageHomeDisplay);
+
         userNameGreeting = (TextView) findViewById(R.id.UserGreetingText);
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -51,27 +62,30 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
         dbRef = FirebaseDatabase.getInstance();
+        mStorage = FirebaseStorage.getInstance().getReference().child("Park").child("1");
 
-        bFitBark.setOnClickListener(new View.OnClickListener() {
+        Glide.with(this).using(new FirebaseImageLoader()).load(mStorage).into(iPark);
+
+        bPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkUser();
             }
         });
 
-        bPaypal.setOnClickListener(new View.OnClickListener() {
+        bPark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(view.getContext(), );
-//                startActivity(i);
+                Intent i = new Intent(view.getContext(), CommunityActivity.class);
+                startActivity(i);
             }
         });
 
-        bMaps.setOnClickListener(new View.OnClickListener() {
+        bSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(view.getContext(), );
-//                startActivity(i);
+                Intent i = new Intent(view.getContext(), MapsActivity.class);
+                startActivity(i);
             }
         });
 
@@ -89,20 +103,6 @@ public class HomeActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        /*ArrayList data = new ArrayList<String>();
-                        User u = new User();
-
-                        for(DataSnapshot userDataSnapshot: dataSnapshot.getChildren())
-                        {
-                            data.add(userDataSnapshot.getValue().toString());
-                            //Toast.makeText(this, "text: " + p, Toast.LENGTH_LONG).show();
-
-                            //pets.add(new com.iu.ckresnye.barksandrec.Pet(pet.getName(), pet.getBreed(), pet.getBday()));
-                        }
-
-                        u.setfName((String)data.get(2));
-                        u.setBreed((String) data.get(1));
-                        //pet.setBday((Date) data.get(0));*/
                         User u = dataSnapshot.getValue(User.class);
                         Intent i = new Intent(HomeActivity.this, (u.getHasPet() ? PetProfileActivity.class: AddPetActivity.class ));
                         startActivity(i);

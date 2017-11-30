@@ -27,64 +27,91 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/buttonFitbark"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="61dp"
-            android:layout_marginTop="123dp"
-            android:background="@color/colorPrimary"
-            android:fontFamily="casual"
-            android:text="FitBark"
-            android:textColor="@android:color/background_light"
-            android:textSize="24sp"/>
-
-        <Button
-            android:id="@+id/buttonPaypal"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/buttonFitbark"
-            android:layout_marginEnd="63dp"
-            android:background="@color/colorPrimary"
-            android:fontFamily="casual"
-            android:text="Paypal"
-            android:textColor="@android:color/background_light"
-            android:textSize="24sp"/>
-
-        <Button
-            android:id="@+id/buttonMaps"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignEnd="@+id/buttonFitbark"
-            android:layout_centerVertical="true"
-            android:background="@color/colorPrimary"
-            android:fontFamily="casual"
-            android:text="Maps"
-            android:textColor="@android:color/background_light"
-            android:textSize="24sp"/>
-
         <TextView
             android:id="@+id/UserGreetingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/logoutButton"
-            android:layout_alignBottom="@+id/logoutButton"
+            android:text="Unloaded Greeting"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="Unloaded Greeting"/>
+            android:layout_marginTop="26dp"/>
+
+
+        <ImageView
+            android:id="@+id/ImageHomeDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:layout_above="@+id/textViewCurrentDogs"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="30dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorPrimary"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:id="@+id/linearLayout2">
+
+            <Button
+                android:id="@+id/buttonPet"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:background="@color/colorPrimaryDark"
+                android:fontFamily="casual"
+                android:text="My Pet"
+                android:textColor="@color/colorBackground"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/buttonPark"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:background="@color/colorPrimaryDark"
+                android:fontFamily="casual"
+                android:text="My Park"
+                android:textColor="@color/colorBackground"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/buttonSetting"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:layout_weight="0.20"
+                android:background="@color/colorPrimaryDark"
+                android:fontFamily="casual"
+                android:text="Settings"
+                android:textColor="@color/colorBackground"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewCurrentDogs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:text="Unloaded Current Dogs"
+            android:textColor="@color/colorTextOne"
+            android:textSize="24sp"
+            android:layout_marginBottom="22dp"
+            android:layout_above="@+id/linearLayout2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="36dp"/>
 
         <Button
             android:id="@+id/logoutButton"
             android:layout_width="wrap_content"
-            android:layout_height="55sp"
-            android:background="@color/colorTextOne"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
             android:text="Logout"
-            android:textColor="@color/colorBackground"
-            android:layout_above="@+id/buttonPaypal"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="11dp"/>
+            android:layout_below="@+id/UserGreetingText"
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
